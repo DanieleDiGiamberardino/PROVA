@@ -12,7 +12,13 @@
 <meta property="og:image" content="img/studio-hero.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="css/style.css">
+<!-- Preload dell'immagine hero: è l'elemento LCP della homepage, farla
+     partire prima aiuta il Largest Contentful Paint una volta che
+     img/studio-hero.jpg sarà una foto reale (ora non esiste ancora,
+     quindi il preload è innocuo ma resta pronto). -->
+<link rel="preload" as="image" href="img/studio-hero.jpg" fetchpriority="high">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -92,6 +98,71 @@
       <div><h3 style="color:#fff">Urgenze</h3><p style="color:#CFE0DC">Disponibilità per visite urgenti.</p></div>
       <div><h3 style="color:#fff">Pagamenti dilazionati</h3><p style="color:#CFE0DC">Piani di pagamento su richiesta.</p></div>
     </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap" style="max-width:760px">
+    <div class="eyebrow">Guida rapida</div>
+    <h2 class="section-title">Hai un dolore o un dubbio? Capisci subito cosa fare</h2>
+    <p class="section-intro">Una prima indicazione per orientarti: in ogni caso, il modo più sicuro per saperlo è farti vedere da noi.</p>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span class="faq-q-text">Forte dolore al dente <span class="symptom-tag urgente">Urgenza</span></span>
+        </button>
+        <div class="faq-a">
+          <p>Può indicare una pulpite o un ascesso. Nell'attesa evita cibi e bevande molto calde o fredde sul dente interessato e non assumere farmaci senza indicazione medica.</p>
+          <a class="btn" href="tel:+39000000000">📞 Chiama ora</a>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span class="faq-q-text">Dente rotto, scheggiato o caduto <span class="symptom-tag urgente">Urgenza</span></span>
+        </button>
+        <div class="faq-a">
+          <p>Conserva l'eventuale frammento (o il dente, tenendolo idratato in latte o saliva) e vieni in studio il prima possibile: le prime ore fanno la differenza.</p>
+          <a class="btn" href="tel:+39000000000">📞 Chiama ora</a>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span class="faq-q-text">Ho perso un'otturazione o una capsula <span class="symptom-tag urgente">Urgenza</span></span>
+        </button>
+        <div class="faq-a">
+          <p>Conserva il pezzo se lo hai ritrovato e chiamaci: fissiamo un appuntamento ravvicinato per proteggere il dente scoperto.</p>
+          <a class="btn" href="tel:+39000000000">📞 Chiama ora</a>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span class="faq-q-text">Gengive che sanguinano <span class="symptom-tag valuta">Da valutare</span></span>
+        </button>
+        <div class="faq-a">
+          <p>Spesso è un primo segnale di gengivite: con una seduta di igiene professionale e le giuste abitudini quotidiane si risolve nella maggior parte dei casi.</p>
+          <a class="btn-ghost btn" href="contatti.html">Prenota una visita</a>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span class="faq-q-text">Sensibilità a caldo o freddo <span class="symptom-tag valuta">Da valutare</span></span>
+        </button>
+        <div class="faq-a">
+          <p>Può dipendere da smalto usurato, gengive retratte o una piccola carie iniziale. Meglio un controllo per capirne la causa ed evitare che peggiori.</p>
+          <a class="btn-ghost btn" href="contatti.html">Prenota una visita</a>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span class="faq-q-text">Dente del giudizio che dà fastidio <span class="symptom-tag valuta">Da valutare</span></span>
+        </button>
+        <div class="faq-a">
+          <p>Va valutato con una radiografia per capire se c'è spazio sufficiente o se conviene programmare l'estrazione prima che il fastidio diventi ricorrente.</p>
+          <a class="btn-ghost btn" href="contatti.html">Prenota una visita</a>
+        </div>
+      </div>
+    </div>
+    <p class="symptom-note">Questa guida ha scopo puramente orientativo e non sostituisce una valutazione odontoiatrica. In caso di dubbio, o se il dolore è forte, non aspettare: <a href="contatti.html" style="color:var(--teal);text-decoration:underline">contattaci</a>.</p>
   </div>
 </section>
 
