@@ -5,22 +5,38 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Studio Dentistico [Nome] — Odontoiatria a [Città]</title>
 <meta name="description" content="Studio dentistico a [Città]: cure generali, implantologia, ortodonzia, igiene e prevenzione. Prenota la tua prima visita.">
+<link rel="canonical" href="https://www.studio-nome.it/index.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Studio Dentistico [Nome] — Odontoiatria a [Città]">
+<meta property="og:description" content="Cure generali, implantologia, ortodonzia, igiene e prevenzione. Prenota la tua prima visita.">
+<meta property="og:image" content="img/studio-hero.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="css/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Dentist",
+  "name": "Studio Dentistico [Nome]",
+  "image": "img/studio-hero.jpg",
+  "telephone": "+39000000000",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Via [—]",
+    "addressLocality": "[Città]",
+    "addressCountry": "IT"
+  },
+  "openingHours": "Mo-Fr 09:00-19:00",
+  "priceRange": "€€"
+}
+</script>
 </head>
 <body>
+<a class="skip-link" href="#main">Vai al contenuto</a>
 
-<header>
-  <div class="nav wrap">
-    <a class="logo" href="index.html">Studio [Nome]</a>
-    <ul class="menu">
-      <li><a href="chi-siamo.html">Chi siamo</a></li>
-      <li><a href="servizi.html">Servizi</a></li>
-      <li><a href="contatti.html">Contatti</a></li>
-    </ul>
-    <a class="btn" href="contatti.html">Prenota visita</a>
-  </div>
-</header>
+<div id="site-header"></div>
 
+<main id="main">
 <section class="hero">
   <div class="arc"></div>
   <div class="wrap">
@@ -29,9 +45,14 @@
       <h1>Il sorriso che meriti, con la cura di sempre.</h1>
       <p>Odontoiatria generale, estetica e prevenzione in un ambiente sereno, con odontoiatri abilitati e iscritti all'Ordine.</p>
       <a class="btn" href="contatti.html">Prenota la prima visita</a>
+      <div class="badge-row">
+        <span class="badge">✓ Odontoiatri iscritti all'Ordine</span>
+        <span class="badge">✓ Scanner intraorale digitale</span>
+        <span class="badge">✓ Pagamenti dilazionati</span>
+      </div>
     </div>
     <div class="hero-img">
-      <img src="img/studio-hero.jpg" alt="Sala operativa dello Studio [Nome]">
+      <img src="img/studio-hero.jpg" alt="Sala operativa dello Studio [Nome]" loading="eager">
     </div>
   </div>
 </section>
@@ -58,6 +79,7 @@
         <p>Apparecchi fissi, mobili e trasparenti per adulti e bambini.</p>
       </div>
     </div>
+    <p style="margin-top:24px"><a href="servizi.html" class="btn btn-ghost">Vedi tutti i servizi →</a></p>
   </div>
 </section>
 
@@ -75,11 +97,35 @@
 
 <section>
   <div class="wrap">
+    <div class="eyebrow">Cosa dicono i pazienti</div>
+    <h2 class="section-title">Le loro parole, la nostra priorità</h2>
+    <div class="grid-3">
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p>[Estratto di una recensione reale del paziente, importata da Google.]</p>
+        <div class="review-name">[Nome Cognome]</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p>[Estratto di una recensione reale del paziente, importata da Google.]</p>
+        <div class="review-name">[Nome Cognome]</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p>[Estratto di una recensione reale del paziente, importata da Google.]</p>
+        <div class="review-name">[Nome Cognome]</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
     <div class="eyebrow">Il team</div>
     <h2 class="section-title">Chi si prende cura di te</h2>
     <div class="grid-3">
       <div class="card team-card">
-        <img src="img/dottore-1.jpg" alt="Dott. [Nome Cognome]">
+        <img src="img/dottore-1.jpg" alt="Dott. [Nome Cognome]" loading="lazy">
         <h3>Dott. [Nome Cognome]</h3>
         <small>Direttore Sanitario — Albo Odontoiatri n. [—]</small>
       </div>
@@ -103,30 +149,9 @@
     </div>
   </div>
 </section>
+</main>
 
-<footer>
-  <div class="wrap">
-    <div>
-      <h4>Studio Dentistico [Nome]</h4>
-      <p>Via [—], [Città] — P.IVA [—]</p>
-      <p>Direttore Sanitario: Dott. [Nome Cognome], Albo Odontoiatri n. [—]</p>
-    </div>
-    <div>
-      <h4>Link utili</h4>
-      <p><a href="chi-siamo.html">Chi siamo</a></p>
-      <p><a href="servizi.html">Servizi</a></p>
-      <p><a href="contatti.html">Contatti</a></p>
-    </div>
-    <div>
-      <h4>Legale</h4>
-      <p><a href="privacy-policy.html">Privacy Policy</a></p>
-      <p><a href="cookie-policy.html">Cookie Policy</a></p>
-    </div>
-  </div>
-  <div class="wrap legal">
-    Le prestazioni sono eseguite da odontoiatri abilitati iscritti all'Ordine. © <span id="year"></span> Studio Dentistico [Nome]. Tutti i diritti riservati.
-  </div>
-</footer>
+<div id="site-footer"></div>
 
 <script src="js/main.js"></script>
 </body>

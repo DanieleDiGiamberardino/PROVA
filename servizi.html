@@ -5,22 +5,40 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Servizi — Studio Dentistico [Nome]</title>
 <meta name="description" content="I trattamenti offerti dallo Studio Dentistico [Nome]: igiene, implantologia, ortodonzia e altro.">
+<link rel="canonical" href="https://www.studio-nome.it/servizi.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="css/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Quanto costa una prima visita?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Il costo della prima visita viene comunicato in fase di prenotazione; richiedi un preventivo personalizzato senza impegno." }
+    },
+    {
+      "@type": "Question",
+      "name": "Accettate le assicurazioni sanitarie?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Collaboriamo con le principali compagnie assicurative e fondi sanitari; contattaci per verificare la tua copertura." }
+    },
+    {
+      "@type": "Question",
+      "name": "È possibile richiedere un piano di pagamento dilazionato?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Sì, offriamo piani di pagamento su richiesta per i trattamenti più impegnativi." }
+    }
+  ]
+}
+</script>
 </head>
 <body>
+<a class="skip-link" href="#main">Vai al contenuto</a>
 
-<header>
-  <div class="nav wrap">
-    <a class="logo" href="index.html">Studio [Nome]</a>
-    <ul class="menu">
-      <li><a href="chi-siamo.html">Chi siamo</a></li>
-      <li><a href="servizi.html">Servizi</a></li>
-      <li><a href="contatti.html">Contatti</a></li>
-    </ul>
-    <a class="btn" href="contatti.html">Prenota visita</a>
-  </div>
-</header>
+<div id="site-header"></div>
 
+<main id="main">
 <section class="hero" style="padding-bottom:20px">
   <div class="wrap" style="grid-template-columns:1fr">
     <div>
@@ -73,6 +91,43 @@
   </div>
 </section>
 
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Assicurazioni e pagamenti</div>
+    <h2 class="section-title">Facilitiamo l'accesso alle cure</h2>
+    <div class="badge-row">
+      <span class="badge">✓ Fondi sanitari e assicurazioni convenzionate</span>
+      <span class="badge">✓ Pagamenti dilazionati</span>
+      <span class="badge">✓ Preventivo gratuito</span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap" style="max-width:760px">
+    <div class="eyebrow">Domande frequenti</div>
+    <h2 class="section-title">Le domande più comuni dei pazienti</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Quanto costa una prima visita?</button>
+        <div class="faq-a"><p>Il costo della prima visita viene comunicato in fase di prenotazione; richiedi un preventivo personalizzato senza impegno.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Accettate le assicurazioni sanitarie?</button>
+        <div class="faq-a"><p>Collaboriamo con le principali compagnie assicurative e fondi sanitari; contattaci per verificare la tua copertura.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">È possibile richiedere un piano di pagamento dilazionato?</button>
+        <div class="faq-a"><p>Sì, offriamo piani di pagamento su richiesta per i trattamenti più impegnativi.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Trattate anche le urgenze?</button>
+        <div class="faq-a"><p>Sì, garantiamo disponibilità per le visite urgenti: chiamaci per essere presi in carico il prima possibile.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="stripe">
   <div class="wrap" style="text-align:center">
     <h2 class="section-title">Hai bisogno di un consulto?</h2>
@@ -80,30 +135,9 @@
     <a class="btn" style="background:#fff;color:var(--teal)" href="contatti.html">Richiedi un preventivo</a>
   </div>
 </section>
+</main>
 
-<footer>
-  <div class="wrap">
-    <div>
-      <h4>Studio Dentistico [Nome]</h4>
-      <p>Via [—], [Città] — P.IVA [—]</p>
-      <p>Direttore Sanitario: Dott. [Nome Cognome], Albo Odontoiatri n. [—]</p>
-    </div>
-    <div>
-      <h4>Link utili</h4>
-      <p><a href="chi-siamo.html">Chi siamo</a></p>
-      <p><a href="servizi.html">Servizi</a></p>
-      <p><a href="contatti.html">Contatti</a></p>
-    </div>
-    <div>
-      <h4>Legale</h4>
-      <p><a href="privacy-policy.html">Privacy Policy</a></p>
-      <p><a href="cookie-policy.html">Cookie Policy</a></p>
-    </div>
-  </div>
-  <div class="wrap legal">
-    Le prestazioni sono eseguite da odontoiatri abilitati iscritti all'Ordine. I prezzi non sono pubblicati: richiedi un preventivo personalizzato. © <span id="year"></span> Studio Dentistico [Nome].
-  </div>
-</footer>
+<div id="site-footer" data-variant="full"></div>
 
 <script src="js/main.js"></script>
 </body>

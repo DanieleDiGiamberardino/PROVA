@@ -5,28 +5,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Chi siamo — Studio Dentistico [Nome]</title>
 <meta name="description" content="Il team e la struttura dello Studio Dentistico [Nome] a [Città].">
+<link rel="canonical" href="https://www.studio-nome.it/chi-siamo.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+<a class="skip-link" href="#main">Vai al contenuto</a>
 
-<header>
-  <div class="nav wrap">
-    <a class="logo" href="index.html">Studio [Nome]</a>
-    <ul class="menu">
-      <li><a href="chi-siamo.html">Chi siamo</a></li>
-      <li><a href="servizi.html">Servizi</a></li>
-      <li><a href="contatti.html">Contatti</a></li>
-    </ul>
-    <a class="btn" href="contatti.html">Prenota visita</a>
-  </div>
-</header>
+<div id="site-header"></div>
 
+<main id="main">
 <section class="hero" style="padding-bottom:20px">
   <div class="wrap" style="grid-template-columns:1fr">
     <div>
       <div class="eyebrow">Chi siamo</div>
       <h1>Un team, una missione: la tua salute orale.</h1>
       <p>Lavoriamo con odontoiatri abilitati e iscritti all'Ordine, in una struttura pensata per il tuo comfort.</p>
+      <div class="badge-row">
+        <span class="badge">✓ Iscritti all'Ordine degli Odontoiatri</span>
+        <span class="badge">✓ Formazione continua</span>
+      </div>
     </div>
   </div>
 </section>
@@ -37,13 +36,13 @@
     <h2 class="section-title">I nostri professionisti</h2>
     <div class="grid-3">
       <div class="card team-card">
-        <img src="img/dottore-1.jpg" alt="Dott. [Nome Cognome]">
+        <img src="img/dottore-1.jpg" alt="Dott. [Nome Cognome]" loading="lazy">
         <h3>Dott. [Nome Cognome]</h3>
         <small>Direttore Sanitario — Albo Odontoiatri n. [—]</small>
         <p>[Breve biografia: percorso di studi, specializzazioni.]</p>
       </div>
       <div class="card team-card">
-        <img src="img/dottore-2.jpg" alt="Dott.ssa [Nome Cognome]">
+        <img src="img/dottore-2.jpg" alt="Dott.ssa [Nome Cognome]" loading="lazy">
         <h3>Dott.ssa [Nome Cognome]</h3>
         <small>Albo Odontoiatri n. [—]</small>
         <p>[Breve biografia: percorso di studi, specializzazioni.]</p>
@@ -57,35 +56,14 @@
     <div class="eyebrow">La struttura</div>
     <h2 class="section-title">Ambienti pensati per te</h2>
     <div class="grid-2">
-      <img src="img/studio-1.jpg" alt="Sala d'attesa dello studio">
-      <img src="img/studio-2.jpg" alt="Ambulatorio odontoiatrico">
+      <img src="img/studio-1.jpg" alt="Sala d'attesa dello studio" loading="lazy">
+      <img src="img/studio-2.jpg" alt="Ambulatorio odontoiatrico" loading="lazy">
     </div>
   </div>
 </section>
+</main>
 
-<footer>
-  <div class="wrap">
-    <div>
-      <h4>Studio Dentistico [Nome]</h4>
-      <p>Via [—], [Città] — P.IVA [—]</p>
-      <p>Direttore Sanitario: Dott. [Nome Cognome], Albo Odontoiatri n. [—]</p>
-    </div>
-    <div>
-      <h4>Link utili</h4>
-      <p><a href="chi-siamo.html">Chi siamo</a></p>
-      <p><a href="servizi.html">Servizi</a></p>
-      <p><a href="contatti.html">Contatti</a></p>
-    </div>
-    <div>
-      <h4>Legale</h4>
-      <p><a href="privacy-policy.html">Privacy Policy</a></p>
-      <p><a href="cookie-policy.html">Cookie Policy</a></p>
-    </div>
-  </div>
-  <div class="wrap legal">
-    Le prestazioni sono eseguite da odontoiatri abilitati iscritti all'Ordine. © <span id="year"></span> Studio Dentistico [Nome]. Tutti i diritti riservati.
-  </div>
-</footer>
+<div id="site-footer"></div>
 
 <script src="js/main.js"></script>
 </body>
