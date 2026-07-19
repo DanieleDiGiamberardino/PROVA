@@ -22,44 +22,28 @@
     <div>
       <div class="eyebrow">Contatti</div>
       <h1>Prenota la tua visita.</h1>
-      <p>Scrivici o chiamaci: ti risponderemo il prima possibile.</p>
+      <p>Scegli la sede più comoda e prenota online in un minuto — oppure chiamaci o scrivici.</p>
     </div>
   </div>
 </section>
 
 <section style="padding-bottom:0">
   <div class="wrap">
-    <div class="eyebrow">Come funziona</div>
-    <h2 class="section-title">Prenotare richiede un minuto</h2>
-    <div class="grid-3">
-      <div class="card">
-        <div class="icon-dot">1</div>
-        <h3>Scegli come prenotare</h3>
-        <p>Online qui sotto in autonomia, oppure chiamaci o scrivici su WhatsApp: ti rispondiamo di persona.</p>
-      </div>
-      <div class="card">
-        <div class="icon-dot">2</div>
-        <h3>Ricevi la conferma</h3>
-        <p>Ti arriva subito una email con data, orario e indirizzo dello studio: nessuna attesa per la risposta.</p>
-      </div>
-      <div class="card">
-        <div class="icon-dot">3</div>
-        <h3>Vieni in studio</h3>
-        <p>Porta un documento d'identità, la tessera sanitaria ed eventuali referti o radiografie recenti.</p>
-      </div>
-    </div>
+    <div class="eyebrow">Passo 1</div>
+    <h2 class="section-title">Scegli la sede</h2>
+    <!-- Le sedi (nome, indirizzo, calendario) vengono da SITE_CONFIG.sedi
+         in js/main.js: aggiungerne una qui non serve, basta aggiungerla lì. -->
+    <div class="grid-3 sede-picker" role="tablist" aria-label="Scegli la sede"></div>
   </div>
 </section>
 
-<section style="padding-top:0">
+<section style="padding-top:28px">
   <div class="wrap">
     <div class="card" style="padding:0;overflow:hidden">
-      <div style="padding:28px 28px 0">
-        <h3 style="margin-top:0">Prenota online in 1 minuto</h3>
-        <p style="color:#4a544f;font-size:.95rem;margin-top:-4px">Scegli la sede: il calendario mostra la disponibilità solo di quello studio.</p>
-        <!-- Le sedi (nome + calendario) vengono da SITE_CONFIG.sedi in js/main.js:
-             aggiungerne una qui non serve, basta aggiungerla lì. -->
-        <div class="sede-tabs" role="tablist" aria-label="Scegli la sede"></div>
+      <div style="padding:24px 28px 0">
+        <div class="eyebrow">Passo 2</div>
+        <h3 style="margin:4px 0 4px">Scegli data e ora</h3>
+        <p style="color:#4a544f;font-size:.92rem;margin:0 0 4px">Disponibilità di: <strong id="selectedSedeLabel"></strong></p>
       </div>
       <!--
         BOOKING REALE — ogni sede in SITE_CONFIG ha un campo calendlyUrl:
@@ -70,6 +54,30 @@
       -->
       <div id="bookingWidget"></div>
       <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Prima di venire</div>
+    <h2 class="section-title">Cosa aspettarsi dopo aver prenotato</h2>
+    <div class="grid-3">
+      <div class="card">
+        <div class="icon-dot">1</div>
+        <h3>Ricevi la conferma</h3>
+        <p>Ti arriva subito una email con data, orario e indirizzo della sede scelta: nessuna attesa per la risposta.</p>
+      </div>
+      <div class="card">
+        <div class="icon-dot">2</div>
+        <h3>Preparati</h3>
+        <p>Porta un documento d'identità, la tessera sanitaria ed eventuali referti o radiografie recenti.</p>
+      </div>
+      <div class="card">
+        <div class="icon-dot">3</div>
+        <h3>Vieni in studio</h3>
+        <p>Ti aspettiamo qualche minuto prima dell'orario per completare l'accoglienza con calma.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -99,9 +107,7 @@
       <p><strong>Telefono:</strong> <a href="tel:+39000000000">+39 000 000 0000</a></p>
       <p><strong>WhatsApp:</strong> <a href="https://wa.me/39000000000">Scrivici su WhatsApp</a></p>
       <p><strong>Email:</strong> <a href="mailto:info@studio.it">info@studio.it</a></p>
-      <p style="color:#4a544f;font-size:.88rem;margin-top:14px">Nel modulo di prenotazione online potrai indicare la sede che preferisci.</p>
-      <h3 style="margin:24px 0 12px">Le nostre sedi</h3>
-      <div class="sedi-mini" style="display:grid;gap:14px"></div>
+      <p style="color:#4a544f;font-size:.88rem;margin-top:14px">Indirizzi e orari completi nella pagina <a href="sedi.html" style="color:var(--teal);text-decoration:underline">Sedi</a>.</p>
     </div>
   </div>
 </section>

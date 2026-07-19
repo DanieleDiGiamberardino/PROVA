@@ -375,35 +375,44 @@ const SITE_CONFIG = {
     else setTimeout(() => whenCalendlyReady(cb), 300);
   }
 
-  /* Selettore di sede per la prenotazione (contatti.html): un tab per
-     ogni sede in SITE_CONFIG.sedi, ognuno carica il calendario Calendly
-     di QUELLA sede (calendlyUrl), cosi la prenotazione è sempre legata
-     allo studio giusto e non a un calendario generico condiviso.
+  /* Selettore di sede per la prenotazione (contatti.html): una card
+     informativa (nome, indirizzo, orario) per ogni sede in
+     SITE_CONFIG.sedi — non semplici etichette, cosi l'utente sceglie
+     sapendo già dov'è e se è aperta. Cliccandola carica il calendario
+     Calendly di QUELLA sede (calendlyUrl): la prenotazione resta
+     sempre legata allo studio giusto, mai a un calendario condiviso.
      Se si arriva con ?sede=slug (es. dal pulsante "Prenota" di una
      card in sedi.html) parte già su quella sede. */
   function initBookingWidget() {
-    const tabsEl = document.querySelector('.sede-tabs');
+    const pickerEl = document.querySelector('.sede-picker');
     const widgetEl = document.getElementById('bookingWidget');
-    if (!tabsEl || !widgetEl) return;
+    const labelEl = document.getElementById('selectedSedeLabel');
+    if (!pickerEl || !widgetEl) return;
     const c = SITE_CONFIG;
 
-    const render = (sede) => {
+    const select = (sede) => {
+      pickerEl.querySelectorAll('.sede-pick').forEach(b => b.classList.toggle('active', b.dataset.slug === sede.slug));
+      if (labelEl) labelEl.textContent = sede.nome;
       widgetEl.innerHTML = '';
       const holder = document.createElement('div');
       holder.style.cssText = 'min-width:280px;height:700px';
       widgetEl.appendChild(holder);
       const url = `${sede.calendlyUrl}?hide_gdpr_banner=1&primary_color=0a5c52`;
       whenCalendlyReady(() => window.Calendly.initInlineWidget({ url, parentElement: holder }));
-      tabsEl.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.slug === sede.slug));
     };
 
-    tabsEl.innerHTML = c.sedi.map(s => `<button type="button" class="tab-btn" data-slug="${s.slug}">${s.nome}</button>`).join('');
-    tabsEl.querySelectorAll('.tab-btn').forEach(btn => {
-      btn.addEventListener('click', () => render(c.sedi.find(s => s.slug === btn.dataset.slug)));
+    pickerEl.innerHTML = c.sedi.map(s => `
+      <button type="button" class="sede-pick" data-slug="${s.slug}">
+        <h4>${s.nome}</h4>
+        <p>${s.indirizzo}</p>
+        <span class="open-status-slot" data-sede="${s.slug}"></span>
+      </button>`).join('');
+    pickerEl.querySelectorAll('.sede-pick').forEach(btn => {
+      btn.addEventListener('click', () => select(c.sedi.find(s => s.slug === btn.dataset.slug)));
     });
 
     const requestedSlug = new URLSearchParams(location.search).get('sede');
-    render(c.sedi.find(s => s.slug === requestedSlug) || c.sedi[0]);
+    select(c.sedi.find(s => s.slug === requestedSlug) || c.sedi[0]);
   }
 
   function injectPartials() {
@@ -482,8 +491,8 @@ const SITE_CONFIG = {
     initFaq();
     initCookieBanner();
     initImageFallback();
+    initBookingWidget();
     initOpenStatus();
     initSectionNav();
-    initBookingWidget();
   });
 })();
