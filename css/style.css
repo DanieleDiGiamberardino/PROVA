@@ -136,6 +136,12 @@ html{scroll-behavior:smooth}
 .open-status.open{background:#E6F4EA;color:#1E7A34}
 .open-status.closed{background:#F1F1EF;color:#6b6b66}
 
+/* tab di selezione sede nel box prenotazione */
+.sede-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 20px}
+.tab-btn{font-family:'Inter',sans-serif;font-size:.86rem;font-weight:500;color:#4a544f;background:var(--bg,#F1F1EF);border:1px solid var(--line);padding:8px 16px;border-radius:999px;cursor:pointer;transition:background .2s,color .2s}
+.tab-btn:hover{background:var(--mint)}
+.tab-btn.active{background:var(--teal);border-color:var(--teal);color:#fff}
+
 /* card sede — versione compatta (Home, Contatti) */
 .sede-card-mini{display:block;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:22px;text-decoration:none;transition:box-shadow .2s,transform .2s}
 .sede-card-mini:hover{box-shadow:var(--shadow);transform:translateY(-2px)}

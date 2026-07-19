@@ -56,15 +56,19 @@
     <div class="card" style="padding:0;overflow:hidden">
       <div style="padding:28px 28px 0">
         <h3 style="margin-top:0">Prenota online in 1 minuto</h3>
-        <p style="color:#4a544f;font-size:.95rem;margin-top:-4px">Scegli il servizio e l'orario che preferisci: riceverai conferma immediata via email.</p>
+        <p style="color:#4a544f;font-size:.95rem;margin-top:-4px">Scegli la sede: il calendario mostra la disponibilità solo di quello studio.</p>
+        <!-- Le sedi (nome + calendario) vengono da SITE_CONFIG.sedi in js/main.js:
+             aggiungerne una qui non serve, basta aggiungerla lì. -->
+        <div class="sede-tabs" role="tablist" aria-label="Scegli la sede"></div>
       </div>
       <!--
-        BOOKING REALE — sostituire l'URL sotto con quello del vero account Calendly dello studio
+        BOOKING REALE — ogni sede in SITE_CONFIG ha un campo calendlyUrl:
+        sostituirlo con l'URL del vero account Calendly di quella sede
         (piano gratuito sufficiente per iniziare: https://calendly.com).
-        In alternativa a Calendly si può usare SimplyBook.me con lo stesso schema di embed.
-        Basta cambiare data-url: nessun'altra modifica al sito è necessaria.
+        In alternativa a Calendly si può usare SimplyBook.me, cambiando
+        solo l'URL: nessun'altra modifica al sito è necessaria.
       -->
-      <div class="calendly-inline-widget" data-url="https://calendly.com/studio-nome/visita?hide_gdpr_banner=1&primary_color=0a5c52" style="min-width:280px;height:700px"></div>
+      <div id="bookingWidget"></div>
       <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
     </div>
   </div>

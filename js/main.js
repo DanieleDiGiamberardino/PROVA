@@ -299,7 +299,7 @@ const SITE_CONFIG = {
         <div class="img-placeholder" style="margin:18px 0;min-height:200px">Mappa Google — ${s.nome} (iframe da integrare)</div>
         <div style="display:flex;gap:12px;flex-wrap:wrap">
           <a class="btn" href="tel:${s.telefonoHref}" data-sede="${s.slug}">📞 Chiama questa sede</a>
-          <a class="btn-ghost btn" href="contatti.html">Prenota una visita</a>
+          <a class="btn-ghost btn" href="contatti.html?sede=${s.slug}#bookingWidget">Prenota in questa sede</a>
         </div>
       </div>`).join('');
     document.querySelectorAll('.sedi-full').forEach(el => { el.innerHTML = fullHtml; });
@@ -363,6 +363,47 @@ const SITE_CONFIG = {
     }, { rootMargin: '-140px 0px -60% 0px', threshold: 0 });
 
     sections.forEach(s => observer.observe(s));
+  }
+
+  /* Attende che lo script esterno di Calendly sia effettivamente
+     caricato prima di inizializzare un widget: evita di chiamare
+     l'API prima che window.Calendly esista. */
+  function whenCalendlyReady(cb) {
+    if (window.Calendly) { cb(); return; }
+    const s = document.querySelector('script[src*="assets.calendly.com"]');
+    if (s) s.addEventListener('load', cb, { once: true });
+    else setTimeout(() => whenCalendlyReady(cb), 300);
+  }
+
+  /* Selettore di sede per la prenotazione (contatti.html): un tab per
+     ogni sede in SITE_CONFIG.sedi, ognuno carica il calendario Calendly
+     di QUELLA sede (calendlyUrl), cosi la prenotazione è sempre legata
+     allo studio giusto e non a un calendario generico condiviso.
+     Se si arriva con ?sede=slug (es. dal pulsante "Prenota" di una
+     card in sedi.html) parte già su quella sede. */
+  function initBookingWidget() {
+    const tabsEl = document.querySelector('.sede-tabs');
+    const widgetEl = document.getElementById('bookingWidget');
+    if (!tabsEl || !widgetEl) return;
+    const c = SITE_CONFIG;
+
+    const render = (sede) => {
+      widgetEl.innerHTML = '';
+      const holder = document.createElement('div');
+      holder.style.cssText = 'min-width:280px;height:700px';
+      widgetEl.appendChild(holder);
+      const url = `${sede.calendlyUrl}?hide_gdpr_banner=1&primary_color=0a5c52`;
+      whenCalendlyReady(() => window.Calendly.initInlineWidget({ url, parentElement: holder }));
+      tabsEl.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.slug === sede.slug));
+    };
+
+    tabsEl.innerHTML = c.sedi.map(s => `<button type="button" class="tab-btn" data-slug="${s.slug}">${s.nome}</button>`).join('');
+    tabsEl.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => render(c.sedi.find(s => s.slug === btn.dataset.slug)));
+    });
+
+    const requestedSlug = new URLSearchParams(location.search).get('sede');
+    render(c.sedi.find(s => s.slug === requestedSlug) || c.sedi[0]);
   }
 
   function injectPartials() {
@@ -443,5 +484,6 @@ const SITE_CONFIG = {
     initImageFallback();
     initOpenStatus();
     initSectionNav();
+    initBookingWidget();
   });
 })();
