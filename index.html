@@ -22,20 +22,16 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Dentist",
+  "@type": "MedicalOrganization",
   "name": "Studio Dentistico [Nome]",
+  "url": "https://www.studio-nome.it/index.html",
   "image": "img/studio-hero.jpg",
-  "telephone": "+39000000000",
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "Via [—]",
-    "addressLocality": "[Città]",
-    "addressCountry": "IT"
-  },
-  "openingHours": "Mo-Fr 09:00-19:00",
-  "priceRange": "€€"
+  "medicalSpecialty": "Dentistry"
 }
 </script>
+<!-- I dati strutturati con indirizzo e telefono di ciascuna sede sono
+     generati automaticamente da js/main.js sulla pagina sedi.html
+     (uno per sede, per comparire nelle ricerche locali di ogni città). -->
 </head>
 <body>
 <a class="skip-link" href="#main">Vai al contenuto</a>
@@ -207,17 +203,11 @@
 
 <section>
   <div class="wrap">
-    <div class="eyebrow">Dove siamo</div>
-    <h2 class="section-title">Vieni a trovarci</h2>
-    <div class="grid-2">
-      <div class="card">
-        <p><strong>Indirizzo:</strong> Via [—], [Città]</p>
-        <p><strong>Telefono:</strong> <a href="tel:+39000000000">+39 000 000 0000</a></p>
-        <p><strong>Orari:</strong> Lun–Ven 9:00–19:00, Sab su appuntamento</p>
-        <a class="btn" style="margin-top:16px" href="contatti.html">Scrivici</a>
-      </div>
-      <div class="card" id="map">Mappa Google — da integrare</div>
-    </div>
+    <div class="eyebrow">Le nostre sedi</div>
+    <h2 class="section-title">3 sedi, sempre vicino a te</h2>
+    <p class="section-intro">Scegli quella più comoda: stessa qualità di cura, stesso team di riferimento.</p>
+    <div class="grid-3 sedi-mini"></div>
+    <p style="margin-top:24px"><a href="sedi.html" class="btn btn-ghost">Vedi indirizzi e orari di tutte le sedi →</a></p>
   </div>
 </section>
 </main>

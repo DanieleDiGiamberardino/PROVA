@@ -136,6 +136,16 @@ html{scroll-behavior:smooth}
 .open-status.open{background:#E6F4EA;color:#1E7A34}
 .open-status.closed{background:#F1F1EF;color:#6b6b66}
 
+/* card sede — versione compatta (Home, Contatti) */
+.sede-card-mini{display:block;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:22px;text-decoration:none;transition:box-shadow .2s,transform .2s}
+.sede-card-mini:hover{box-shadow:var(--shadow);transform:translateY(-2px)}
+.sede-card-mini h4{color:var(--teal);font-family:'Fraunces',serif;margin:0 0 6px;font-size:1.1rem}
+.sede-card-mini p{color:#4a544f;font-size:.88rem;margin:0 0 10px}
+
+/* card sede — versione completa (pagina Sedi) */
+.sede-card{scroll-margin-top:128px}
+.sede-card h2{font-size:1.5rem}
+
 /* skip link / accessibility */
 .skip-link{position:absolute;left:-999px;top:auto;background:var(--teal);color:#fff;padding:10px 16px;border-radius:8px;z-index:100}
 .skip-link:focus{left:16px;top:16px}

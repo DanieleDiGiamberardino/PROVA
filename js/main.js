@@ -7,28 +7,47 @@
 
 /* ------------------------------------------------------------
    CONFIGURAZIONE STUDIO — unico punto da editare.
-   Cambia questi valori per aggiornare nome, città, telefono ed
-   email ovunque compaiano nel sito (testi, title, meta, link
-   tel:/mailto:, dati strutturati), senza toccare i file .html.
+   "nome" ed "email" sono condivisi da tutto il gruppo. L'array
+   "sedi" contiene le 3 sedi: aggiungerne, rimuoverne o modificarne
+   una qui aggiorna automaticamente homepage, pagina Sedi, footer,
+   contatti, badge Aperto/Chiuso e dati strutturati — senza mai
+   toccare i file .html.
    ------------------------------------------------------------ */
 const SITE_CONFIG = {
-  nome: '[Nome]',
-  citta: '[Città]',
-  telefono: '+39 000 000 0000',   // formato visualizzato
-  telefonoHref: '+39000000000',   // stesso numero, senza spazi, per i link tel:
+  nome: '[Nome]',       // nome del gruppo/brand, es. "Studio Dentistico Rossi"
   email: 'info@studio.it',
-  // Orari per l'indicatore "Aperto ora / Chiuso" in tempo reale.
-  // Chiave 0=domenica...6=sabato. null = chiuso quel giorno.
-  // Cambia solo qui per aggiornare l'indicatore ovunque compaia.
-  orari: {
-    0: null,
-    1: ['09:00', '19:00'],
-    2: ['09:00', '19:00'],
-    3: ['09:00', '19:00'],
-    4: ['09:00', '19:00'],
-    5: ['09:00', '19:00'],
-    6: null // sabato: solo su appuntamento, non conteggiato come "aperto"
-  }
+  sedi: [
+    {
+      slug: 'sede-1',
+      nome: 'Sede [Città 1]',
+      citta: '[Città 1]',
+      indirizzo: 'Via [—], [Città 1]',
+      telefono: '+39 000 000 0001',
+      telefonoHref: '+390000000001',
+      calendlyUrl: 'https://calendly.com/studio-nome/sede-1',
+      orari: { 0: null, 1: ['09:00', '19:00'], 2: ['09:00', '19:00'], 3: ['09:00', '19:00'], 4: ['09:00', '19:00'], 5: ['09:00', '19:00'], 6: null }
+    },
+    {
+      slug: 'sede-2',
+      nome: 'Sede [Città 2]',
+      citta: '[Città 2]',
+      indirizzo: 'Via [—], [Città 2]',
+      telefono: '+39 000 000 0002',
+      telefonoHref: '+390000000002',
+      calendlyUrl: 'https://calendly.com/studio-nome/sede-2',
+      orari: { 0: null, 1: ['09:00', '18:00'], 2: ['09:00', '18:00'], 3: ['09:00', '18:00'], 4: ['09:00', '18:00'], 5: ['09:00', '18:00'], 6: null }
+    },
+    {
+      slug: 'sede-3',
+      nome: 'Sede [Città 3]',
+      citta: '[Città 3]',
+      indirizzo: 'Via [—], [Città 3]',
+      telefono: '+39 000 000 0003',
+      telefonoHref: '+390000000003',
+      calendlyUrl: 'https://calendly.com/studio-nome/sede-3',
+      orari: { 0: null, 1: null, 2: ['09:00', '18:00'], 3: ['09:00', '18:00'], 4: ['09:00', '18:00'], 5: ['09:00', '18:00'], 6: ['09:00', '13:00'] }
+    }
+  ]
 };
 
 (function () {
@@ -36,6 +55,7 @@ const SITE_CONFIG = {
     { href: 'index.html', label: 'Home' },
     { href: 'chi-siamo.html', label: 'Chi siamo' },
     { href: 'servizi.html', label: 'Servizi' },
+    { href: 'sedi.html', label: 'Sedi' },
     { href: 'contatti.html', label: 'Contatti' }
   ];
 
@@ -64,20 +84,22 @@ const SITE_CONFIG = {
     <div class="wrap">
       <div>
         <h4>Studio Dentistico [Nome]</h4>
-        <p>Via [—], [Città] — P.IVA [—]</p>
+        <p>P.IVA [—]</p>
         <p>Direttore Sanitario: Dott. [Nome Cognome], Albo Odontoiatri n. [—]</p>
         <div class="trust-row" aria-hidden="true">
           <span>★★★★★ 4.9/5 su Google</span>
         </div>
       </div>
       <div>
+        <h4>Le nostre sedi</h4>
+        <div id="footerSedi"></div>
+      </div>
+      <div>
         <h4>Link utili</h4>
         <p><a href="chi-siamo.html">Chi siamo</a></p>
         <p><a href="servizi.html">Servizi</a></p>
+        <p><a href="sedi.html">Sedi</a></p>
         <p><a href="contatti.html">Contatti</a></p>
-      </div>
-      <div>
-        <h4>Legale</h4>
         <p><a href="privacy-policy.html">Privacy Policy</a></p>
         <p><a href="cookie-policy.html">Cookie Policy</a></p>
       </div>
@@ -88,16 +110,26 @@ const SITE_CONFIG = {
 
   const FOOTER_SIMPLE_HTML = `<div class="wrap legal">© <span id="year"></span> Studio Dentistico [Nome].</div>`;
 
-  /* Sostituisce [Nome] / [Città] / numero di telefono / email in tutto
-     il documento (title, meta, JSON-LD, testo visibile, link tel:/mailto:)
-     leggendo i valori da SITE_CONFIG. Finché SITE_CONFIG non è compilato
-     con i dati reali, i placeholder restano visibili come promemoria. */
+  /* "Milano, Roma e Napoli" invece di "Milano, Roma, Napoli" */
+  function joinNames(arr) {
+    if (arr.length <= 1) return arr.join('');
+    return arr.slice(0, -1).join(', ') + ' e ' + arr[arr.length - 1];
+  }
+
+  /* Sostituisce [Nome] / email in tutto il documento (title, meta,
+     JSON-LD, testo visibile, link mailto:) e il telefono generico
+     con quello della sede principale (SITE_CONFIG.sedi[0]). I link
+     tel: con un attributo data-sede="slug" vengono invece collegati
+     al numero di quella specifica sede: così un solo numero "vetrina"
+     compare in header/footer, ma ogni sede ha il proprio nella pagina
+     Sedi. */
   function applyConfig() {
     const c = SITE_CONFIG;
+    const principale = c.sedi[0];
     const rules = [
       [/\[Nome\]/g, c.nome],
-      [/\[Città\]/g, c.citta],
-      [/\+39\s?000\s?000\s?0000/g, c.telefono],
+      [/\[Città\]/g, joinNames(c.sedi.map(s => s.citta))],
+      [/\+39\s?000\s?000\s?0000/g, principale.telefono],
       [/info@studio\.it/g, c.email]
     ];
     const replace = (str) => rules.reduce((s, [re, val]) => s.replace(re, val), str);
@@ -118,7 +150,10 @@ const SITE_CONFIG = {
       if (replaced !== node.nodeValue) node.nodeValue = replaced;
     }
 
-    document.querySelectorAll('a[href^="tel:"]').forEach(a => { a.href = 'tel:' + c.telefonoHref; });
+    document.querySelectorAll('a[href^="tel:"]').forEach(a => {
+      const sede = c.sedi.find(s => s.slug === a.dataset.sede);
+      a.href = 'tel:' + (sede ? sede.telefonoHref : principale.telefonoHref);
+    });
     document.querySelectorAll('a[href^="mailto:"]').forEach(a => { a.href = 'mailto:' + c.email; });
   }
 
@@ -176,14 +211,15 @@ const SITE_CONFIG = {
   }
 
   const DAY_NAMES = ['domenica', 'lunedì', 'martedì', 'mercoledì', 'giovedì', 'venerdì', 'sabato'];
+  const DAY_SHORT = ['Dom', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'];
 
-  function getOpenStatus() {
+  function getOpenStatus(orari) {
     const now = new Date();
     const day = now.getDay();
     const nowMin = now.getHours() * 60 + now.getMinutes();
     const toMin = (hhmm) => { const [h, m] = hhmm.split(':').map(Number); return h * 60 + m; };
 
-    const today = SITE_CONFIG.orari[day];
+    const today = orari[day];
     if (today && nowMin >= toMin(today[0]) && nowMin < toMin(today[1])) {
       return { open: true, text: `Aperto ora · chiude alle ${today[1]}` };
     }
@@ -192,7 +228,7 @@ const SITE_CONFIG = {
     }
     for (let i = 1; i <= 7; i++) {
       const d = (day + i) % 7;
-      const hours = SITE_CONFIG.orari[d];
+      const hours = orari[d];
       if (hours) {
         return { open: false, text: `Chiuso ora · riapre ${DAY_NAMES[d]} alle ${hours[0]}` };
       }
@@ -200,16 +236,112 @@ const SITE_CONFIG = {
     return { open: false, text: 'Chiuso' };
   }
 
+  /* Trasforma l'oggetto orari {0..6:[apre,chiude]|null} in un'unica
+     riga leggibile tipo "Lun–Ven 09:00–19:00, Sab 09:00–13:00",
+     accorpando i giorni consecutivi con lo stesso orario. */
+  function orariLabel(orari) {
+    const order = [1, 2, 3, 4, 5, 6, 0];
+    const groups = [];
+    order.forEach(d => {
+      const val = orari[d] ? orari[d].join('–') : null;
+      const last = groups[groups.length - 1];
+      if (last && last.val === val) last.days.push(d);
+      else groups.push({ val, days: [d] });
+    });
+    return groups
+      .filter(g => g.val)
+      .map(g => {
+        const span = g.days.length > 1
+          ? `${DAY_SHORT[g.days[0]]}–${DAY_SHORT[g.days[g.days.length - 1]]}`
+          : DAY_SHORT[g.days[0]];
+        return `${span} ${g.val}`;
+      })
+      .join(', ') || 'Chiuso';
+  }
+
   /* Riempie ogni <span class="open-status-slot"></span> presente in
      pagina con il badge Aperto/Chiuso calcolato in tempo reale
-     dall'orologio del visitatore, in base a SITE_CONFIG.orari. */
+     dall'orologio del visitatore. Se lo slot ha data-sede="slug" usa
+     gli orari di quella sede, altrimenti quelli della sede principale. */
   function initOpenStatus() {
-    const slots = document.querySelectorAll('.open-status-slot');
-    if (!slots.length) return;
-    const status = getOpenStatus();
-    slots.forEach(slot => {
+    document.querySelectorAll('.open-status-slot').forEach(slot => {
+      const sede = SITE_CONFIG.sedi.find(s => s.slug === slot.dataset.sede) || SITE_CONFIG.sedi[0];
+      const status = getOpenStatus(sede.orari);
       slot.textContent = status.text;
       slot.className = 'open-status-slot open-status ' + (status.open ? 'open' : 'closed');
+    });
+  }
+
+  /* Genera le card delle 3 sedi da SITE_CONFIG.sedi e le inserisce in
+     ogni <div class="sedi-mini"> (versione compatta, per Home/Contatti)
+     e <div class="sedi-full"> (versione completa, per la pagina Sedi).
+     Aggiungere/togliere una sede in SITE_CONFIG basta a farla comparire
+     ovunque, senza toccare l'HTML. */
+  function renderSedi() {
+    const c = SITE_CONFIG;
+
+    const miniHtml = c.sedi.map(s => `
+      <a class="sede-card-mini" href="sedi.html#${s.slug}">
+        <h4>${s.nome}</h4>
+        <p>${s.indirizzo}</p>
+        <span class="open-status-slot" data-sede="${s.slug}"></span>
+      </a>`).join('');
+    document.querySelectorAll('.sedi-mini').forEach(el => { el.innerHTML = miniHtml; });
+
+    const fullHtml = c.sedi.map(s => `
+      <div class="card sede-card" id="${s.slug}">
+        <div class="eyebrow">Sede</div>
+        <h2 style="margin:4px 0 14px">${s.nome}</h2>
+        <p><strong>Indirizzo:</strong> ${s.indirizzo}</p>
+        <p><strong>Telefono:</strong> <a href="tel:${s.telefonoHref}" data-sede="${s.slug}">${s.telefono}</a></p>
+        <p><strong>Orari:</strong> ${orariLabel(s.orari)}</p>
+        <p style="margin-top:10px"><span class="open-status-slot" data-sede="${s.slug}"></span></p>
+        <div class="img-placeholder" style="margin:18px 0;min-height:200px">Mappa Google — ${s.nome} (iframe da integrare)</div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <a class="btn" href="tel:${s.telefonoHref}" data-sede="${s.slug}">📞 Chiama questa sede</a>
+          <a class="btn-ghost btn" href="contatti.html">Prenota una visita</a>
+        </div>
+      </div>`).join('');
+    document.querySelectorAll('.sedi-full').forEach(el => { el.innerHTML = fullHtml; });
+
+    const footerSlot = document.getElementById('footerSedi');
+    if (footerSlot) {
+      footerSlot.innerHTML = c.sedi.map(s => `
+        <p>${s.nome}<br><a href="tel:${s.telefonoHref}" data-sede="${s.slug}">${s.telefono}</a></p>`).join('');
+    }
+
+    const subNav = document.querySelector('.sedi-mini-nav');
+    if (subNav) {
+      subNav.innerHTML = c.sedi.map(s => `<a href="#${s.slug}">${s.nome}</a>`).join('');
+    }
+  }
+
+  /* Dati strutturati (schema.org) per ogni sede: un blocco Dentist
+     distinto per sede, così ciascuna può comparire separatamente nelle
+     ricerche locali di Google per la propria città. Generati solo
+     sulla pagina che contiene .sedi-full (sedi.html). */
+  function injectSedeSchema() {
+    if (!document.querySelector('.sedi-full')) return;
+    SITE_CONFIG.sedi.forEach(s => {
+      const script = document.createElement('script');
+      script.type = 'application/ld+json';
+      script.textContent = JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Dentist',
+        name: `${SITE_CONFIG.nome} — ${s.nome}`,
+        telephone: s.telefonoHref,
+        address: {
+          '@type': 'PostalAddress',
+          streetAddress: s.indirizzo,
+          addressLocality: s.citta,
+          addressCountry: 'IT'
+        },
+        openingHours: Object.entries(s.orari)
+          .filter(([, v]) => v)
+          .map(([d, v]) => `${['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'][d]} ${v[0]}-${v[1]}`),
+        priceRange: '€€'
+      });
+      document.head.appendChild(script);
     });
   }
 
@@ -306,8 +438,10 @@ const SITE_CONFIG = {
   document.addEventListener('DOMContentLoaded', () => {
     injectHeadExtras();
     injectPartials();
+    renderSedi();
+    injectSedeSchema();
     initStickyMobileCta();
-    applyConfig(); // dopo aver creato tutto l'HTML, così sostituisce anche header/footer/CTA
+    applyConfig(); // dopo aver creato tutto l'HTML/JSON-LD, così sostituisce anche quello
     initMobileMenu();
     initFaq();
     initCookieBanner();
