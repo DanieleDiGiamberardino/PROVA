@@ -19,9 +19,9 @@ const SITE_CONFIG = {
   sedi: [
     {
       slug: 'sede-1',
-      nome: 'Sede [Città 1]',
-      citta: '[Città 1]',
-      indirizzo: 'Via [—], [Città 1]',
+      nome: 'Sede Roma [Zona 1]',
+      citta: 'Roma',
+      indirizzo: 'Via [—], Roma',
       telefono: '+39 000 000 0001',
       telefonoHref: '+390000000001',
       calendlyUrl: 'https://calendly.com/studio-nome/sede-1',
@@ -29,9 +29,9 @@ const SITE_CONFIG = {
     },
     {
       slug: 'sede-2',
-      nome: 'Sede [Città 2]',
-      citta: '[Città 2]',
-      indirizzo: 'Via [—], [Città 2]',
+      nome: 'Sede Roma [Zona 2]',
+      citta: 'Roma',
+      indirizzo: 'Via [—], Roma',
       telefono: '+39 000 000 0002',
       telefonoHref: '+390000000002',
       calendlyUrl: 'https://calendly.com/studio-nome/sede-2',
@@ -39,9 +39,9 @@ const SITE_CONFIG = {
     },
     {
       slug: 'sede-3',
-      nome: 'Sede [Città 3]',
-      citta: '[Città 3]',
-      indirizzo: 'Via [—], [Città 3]',
+      nome: 'Sede Corcolle',
+      citta: 'Corcolle',
+      indirizzo: 'Via [—], Corcolle (Roma)',
       telefono: '+39 000 000 0003',
       telefonoHref: '+390000000003',
       calendlyUrl: 'https://calendly.com/studio-nome/sede-3',
@@ -128,7 +128,7 @@ const SITE_CONFIG = {
     const principale = c.sedi[0];
     const rules = [
       [/\[Nome\]/g, c.nome],
-      [/\[Città\]/g, joinNames(c.sedi.map(s => s.citta))],
+      [/\[Città\]/g, joinNames([...new Set(c.sedi.map(s => s.citta))])],
       [/\+39\s?000\s?000\s?0000/g, principale.telefono],
       [/info@studio\.it/g, c.email]
     ];
@@ -308,11 +308,6 @@ const SITE_CONFIG = {
     if (footerSlot) {
       footerSlot.innerHTML = c.sedi.map(s => `
         <p>${s.nome}<br><a href="tel:${s.telefonoHref}" data-sede="${s.slug}">${s.telefono}</a></p>`).join('');
-    }
-
-    const subNav = document.querySelector('.sedi-mini-nav');
-    if (subNav) {
-      subNav.innerHTML = c.sedi.map(s => `<a href="#${s.slug}">${s.nome}</a>`).join('');
     }
   }
 
