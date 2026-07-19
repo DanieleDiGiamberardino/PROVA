@@ -86,8 +86,8 @@ const SITE_CONFIG = {
         <h4>Studio Dentistico [Nome]</h4>
         <p>P.IVA [—]</p>
         <p>Direttore Sanitario: Dott. [Nome Cognome], Albo Odontoiatri n. [—]</p>
-        <div class="trust-row" aria-hidden="true">
-          <span>★★★★★ 4.9/5 su Google</span>
+        <div class="trust-row">
+          <span>★★★★★ [—]/5 su Google ([—] recensioni) — <em>dato reale da inserire prima della pubblicazione</em></span>
         </div>
       </div>
       <div>
@@ -182,7 +182,32 @@ const SITE_CONFIG = {
 
   /* Favicon e meta condivise iniettate qui: un solo punto da aggiornare
      invece di ripeterle in ogni <head>. */
+  const CONSENT_KEY = 'cookie-consent'; // '1' accettato, '0' rifiutato, assente = non deciso
+  const hasConsent = () => localStorage.getItem(CONSENT_KEY) === '1';
+
+  /* Google Fonts trasmette l'IP del visitatore a Google ad ogni
+     richiesta: viene caricato solo se l'utente ha accettato i cookie
+     non tecnici (qui o in una visita precedente). Senza consenso il
+     sito resta leggibile con i font di sistema già previsti come
+     fallback in CSS (body{font-family:'Inter',sans-serif}, ecc.). */
+  function loadGoogleFonts() {
+    if (document.getElementById('gfonts-link')) return; // già caricati
+    ['https://fonts.googleapis.com', 'https://fonts.gstatic.com'].forEach((href, i) => {
+      const l = document.createElement('link');
+      l.rel = 'preconnect';
+      l.href = href;
+      if (i === 1) l.crossOrigin = '';
+      document.head.appendChild(l);
+    });
+    const font = document.createElement('link');
+    font.id = 'gfonts-link';
+    font.rel = 'stylesheet';
+    font.href = 'https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap';
+    document.head.appendChild(font);
+  }
+
   function injectHeadExtras() {
+    if (hasConsent()) loadGoogleFonts();
     const head = document.head;
     if (!document.querySelector('link[rel="icon"]')) {
       const icon = document.createElement('link');
@@ -365,14 +390,20 @@ const SITE_CONFIG = {
     sections.forEach(s => observer.observe(s));
   }
 
-  /* Attende che lo script esterno di Calendly sia effettivamente
-     caricato prima di inizializzare un widget: evita di chiamare
-     l'API prima che window.Calendly esista. */
+  /* Carica lo script esterno di Calendly una sola volta (non è più
+     incluso staticamente nell'HTML: viene richiesto solo qui, quando
+     serve davvero e solo se l'utente ha dato il consenso) e attende
+     che sia pronto prima di inizializzare un widget. */
   function whenCalendlyReady(cb) {
     if (window.Calendly) { cb(); return; }
-    const s = document.querySelector('script[src*="assets.calendly.com"]');
-    if (s) s.addEventListener('load', cb, { once: true });
-    else setTimeout(() => whenCalendlyReady(cb), 300);
+    let s = document.querySelector('script[src*="assets.calendly.com"]');
+    if (!s) {
+      s = document.createElement('script');
+      s.src = 'https://assets.calendly.com/assets/external/widget.js';
+      s.async = true;
+      document.body.appendChild(s);
+    }
+    s.addEventListener('load', cb, { once: true });
   }
 
   /* Selettore di sede per la prenotazione (contatti.html): una card
@@ -394,6 +425,21 @@ const SITE_CONFIG = {
       pickerEl.querySelectorAll('.sede-pick').forEach(b => b.classList.toggle('active', b.dataset.slug === sede.slug));
       if (labelEl) labelEl.textContent = sede.nome;
       widgetEl.innerHTML = '';
+
+      if (!hasConsent()) {
+        widgetEl.innerHTML = `
+          <div class="card" style="margin:0;border:none;border-radius:0;background:var(--mint)">
+            <p style="margin:0 0 12px">Il calendario di prenotazione è fornito da <strong>Calendly</strong>, un servizio esterno: per caricarlo serve il tuo consenso ai cookie di terze parti.</p>
+            <button class="btn" id="consentFromWidget" type="button">Accetta e mostra il calendario</button>
+          </div>`;
+        document.getElementById('consentFromWidget').addEventListener('click', () => {
+          localStorage.setItem(CONSENT_KEY, '1');
+          loadGoogleFonts();
+          select(sede);
+        });
+        return;
+      }
+
       const holder = document.createElement('div');
       holder.style.cssText = 'min-width:280px;height:700px';
       widgetEl.appendChild(holder);
@@ -454,20 +500,28 @@ const SITE_CONFIG = {
   }
 
   function initCookieBanner() {
-    const KEY = 'cookie-consent';
-    if (localStorage.getItem(KEY)) return;
+    if (localStorage.getItem(CONSENT_KEY)) return; // già deciso, non richiedere di nuovo
     const bar = document.createElement('div');
     bar.className = 'cookie-banner';
     bar.setAttribute('role', 'dialog');
-    bar.setAttribute('aria-label', 'Informativa cookie');
+    bar.setAttribute('aria-label', 'Preferenze cookie');
     bar.innerHTML = `
-      <p>Usiamo cookie tecnici per il funzionamento del sito. Consulta la <a href="cookie-policy.html">Cookie Policy</a>.</p>
-      <button class="btn" id="cookieAccept">Accetta</button>`;
+      <p>Usiamo cookie tecnici per il funzionamento del sito. Con il tuo consenso carichiamo anche Google Fonts e il calendario di prenotazione (Calendly), entrambi servizi di terze parti. Consulta la <a href="cookie-policy.html">Cookie Policy</a>.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn-ghost btn" id="cookieReject">Rifiuta</button>
+        <button class="btn" id="cookieAccept">Accetta</button>
+      </div>`;
     document.body.appendChild(bar);
-    document.getElementById('cookieAccept').addEventListener('click', () => {
-      localStorage.setItem(KEY, '1');
+    const close = (value) => {
+      localStorage.setItem(CONSENT_KEY, value);
       bar.remove();
-    });
+      if (value === '1') {
+        loadGoogleFonts();
+        initBookingWidget(); // ricarica il calendario, ora che c'è il consenso
+      }
+    };
+    document.getElementById('cookieAccept').addEventListener('click', () => close('1'));
+    document.getElementById('cookieReject').addEventListener('click', () => close('0'));
   }
 
   function initStickyMobileCta() {

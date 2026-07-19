@@ -4,10 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Privacy Policy — Studio Dentistico [Nome]</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="css/style.css">
+<!-- Google Fonts NON è più caricato qui in modo statico: trasmette l'IP
+     del visitatore a Google ad ogni caricamento pagina, prima di
+     qualsiasi consenso. Viene caricato da js/main.js SOLO dopo che
+     l'utente accetta i cookie non tecnici nel banner (o se aveva già
+     accettato in una visita precedente). Senza consenso il sito resta
+     comunque leggibile con i font di sistema (fallback già in CSS). -->
 </head>
 <body>
 <div id="site-header"></div>
@@ -19,7 +22,17 @@
   <h3>Titolare del trattamento</h3>
   <p>[Ragione sociale], P.IVA [—], sede legale: Via [—], [Città sede legale]. Email: [—]</p>
   <h3>Finalità del trattamento</h3>
-  <p>I dati raccolti tramite il form di contatto sono utilizzati esclusivamente per rispondere alle richieste dell'utente e gestire l'appuntamento.</p>
+  <p>I dati raccolti tramite il form di contatto o il calendario di prenotazione online sono utilizzati esclusivamente per rispondere alle richieste dell'utente e gestire l'appuntamento presso la sede scelta.</p>
+  <h3>Dati particolari (dati sanitari)</h3>
+  <p>Il messaggio libero del form di contatto o le informazioni fornite in fase di prenotazione possono contenere, per scelta dell'utente, dati relativi alla salute (es. sintomi, patologie pregresse). Si tratta di una categoria particolare di dati ai sensi dell'art. 9 GDPR: il loro trattamento è basato sul consenso esplicito prestato spuntando la casella dedicata, ed è limitato alle finalità di erogazione della prestazione odontoiatrica richiesta. Si invita l'utente a non includere nel form dettagli sanitari non necessari alla richiesta.</p>
+  <h3>Responsabili esterni del trattamento</h3>
+  <p>Per l'erogazione del servizio ci avvaliamo dei seguenti fornitori terzi, nominati responsabili del trattamento ex art. 28 GDPR (o operanti secondo le rispettive garanzie per trasferimenti extra-UE):</p>
+  <ul style="margin:0 0 16px 20px;color:var(--ink,inherit)">
+    <li><strong>Calendly, LLC</strong> — gestione del calendario e delle prenotazioni online.</li>
+    <li><strong>Netlify, Inc.</strong> (o l'analogo servizio effettivamente in uso) — gestione dell'invio del form di contatto.</li>
+    <li><strong>Google LLC</strong> — Google Fonts, caricato solo previo consenso (vedi Cookie Policy).</li>
+  </ul>
+  <p>[Verificare che con ciascun fornitore sia in essere un accordo/DPA conforme all'art. 28 GDPR ed eventuali Clausole Contrattuali Standard per il trasferimento dati extra-UE.]</p>
   <h3>Diritti dell'interessato</h3>
   <p>L'utente può richiedere accesso, rettifica, cancellazione o limitazione del trattamento dei propri dati scrivendo a [email].</p>
 </section>

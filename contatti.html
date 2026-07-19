@@ -6,10 +6,13 @@
 <title>Contatti — Studio Dentistico [Nome]</title>
 <meta name="description" content="Contatta o prenota una visita presso lo Studio Dentistico [Nome] a [Città].">
 <link rel="canonical" href="https://www.studio-nome.it/contatti.html">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="css/style.css">
+<!-- Google Fonts NON è più caricato qui in modo statico: trasmette l'IP
+     del visitatore a Google ad ogni caricamento pagina, prima di
+     qualsiasi consenso. Viene caricato da js/main.js SOLO dopo che
+     l'utente accetta i cookie non tecnici nel banner (o se aveva già
+     accettato in una visita precedente). Senza consenso il sito resta
+     comunque leggibile con i font di sistema (fallback già in CSS). -->
 </head>
 <body>
 <a class="skip-link" href="#main">Vai al contenuto</a>
@@ -53,7 +56,9 @@
         solo l'URL: nessun'altra modifica al sito è necessaria.
       -->
       <div id="bookingWidget"></div>
-      <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+      <!-- Lo script di Calendly NON è più caricato staticamente qui:
+           viene iniettato da js/main.js solo dopo il consenso ai cookie
+           di terze parti (vedi initBookingWidget in js/main.js). -->
     </div>
   </div>
 </section>
@@ -97,7 +102,7 @@
         <p style="margin-bottom:12px"><input name="telefono" placeholder="Telefono (opzionale)" style="width:100%;padding:12px;border:1px solid var(--line);border-radius:8px"></p>
         <p style="margin-bottom:12px"><textarea required name="messaggio" placeholder="Messaggio" rows="4" style="width:100%;padding:12px;border:1px solid var(--line);border-radius:8px"></textarea></p>
         <p style="margin-bottom:16px;font-size:.85rem;color:#4a544f">
-          <label><input required type="checkbox" name="privacy"> Ho letto e accetto la <a href="privacy-policy.html" style="color:var(--teal);text-decoration:underline">Privacy Policy</a></label>
+          <label><input required type="checkbox" name="privacy"> Ho letto la <a href="privacy-policy.html" style="color:var(--teal);text-decoration:underline">Privacy Policy</a> e acconsento al trattamento dei miei dati, inclusi eventuali dati relativi alla salute che scelgo di indicare nel messaggio.</label>
         </p>
         <button class="btn" type="submit">Invia richiesta</button>
       </form>

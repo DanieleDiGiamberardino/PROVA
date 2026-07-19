@@ -119,6 +119,8 @@ html{scroll-behavior:smooth}
 .cookie-banner{position:fixed;left:16px;right:16px;bottom:16px;z-index:30;background:#0F2C29;color:#CFE0DC;border-radius:var(--radius);padding:18px 20px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;max-width:640px;margin:0 auto;box-shadow:0 8px 24px rgba(0,0,0,.2)}
 .cookie-banner p{font-size:.85rem;flex:1;min-width:220px}
 .cookie-banner a{text-decoration:underline}
+.cookie-banner .btn-ghost{border-color:#CFE0DC;color:#fff}
+.cookie-banner .btn-ghost:hover{background:rgba(255,255,255,.12)}
 
 /* simple legal pages */
 .legal-page{padding:60px 24px;max-width:760px;margin:0 auto}
