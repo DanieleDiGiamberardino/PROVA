@@ -102,6 +102,7 @@ const SITE_CONFIG = {
         <p><a href="contatti.html">Contatti</a></p>
         <p><a href="privacy-policy.html">Privacy Policy</a></p>
         <p><a href="cookie-policy.html">Cookie Policy</a></p>
+        <p><a href="#" id="manageCookies">Gestisci preferenze cookie</a></p>
       </div>
     </div>
     <div class="wrap legal">
@@ -524,6 +525,20 @@ const SITE_CONFIG = {
     document.getElementById('cookieReject').addEventListener('click', () => close('0'));
   }
 
+  /* Link "Gestisci preferenze cookie" nel footer: permette di
+     cambiare scelta in qualsiasi momento senza dover cancellare i
+     dati di navigazione dal browser (più corretto verso l'utente). */
+  function initManageCookies() {
+    document.querySelectorAll('#manageCookies').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        localStorage.removeItem(CONSENT_KEY);
+        document.querySelector('.cookie-banner')?.remove();
+        initCookieBanner();
+      });
+    });
+  }
+
   function initStickyMobileCta() {
     if (current === 'contatti.html') return; // già sulla pagina di contatto
     const cta = document.createElement('div');
@@ -544,6 +559,7 @@ const SITE_CONFIG = {
     initMobileMenu();
     initFaq();
     initCookieBanner();
+    initManageCookies();
     initImageFallback();
     initBookingWidget();
     initOpenStatus();

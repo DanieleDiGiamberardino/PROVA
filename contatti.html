@@ -95,11 +95,16 @@
     <div class="card">
       <h3 style="margin-top:0">Scrivici</h3>
       <!-- Form gestito da Netlify Forms: sostituire data-netlify="true" e name con endpoint reale (o Formspree) -->
-      <form name="contatto" method="POST" data-netlify="true">
+      <form name="contatto" method="POST" data-netlify="true" netlify-honeypot="azienda">
         <input type="hidden" name="form-name" value="contatto">
-        <p style="margin-bottom:12px"><input required name="nome" placeholder="Nome e cognome" style="width:100%;padding:12px;border:1px solid var(--line);border-radius:8px"></p>
-        <p style="margin-bottom:12px"><input required type="email" name="email" placeholder="Email" style="width:100%;padding:12px;border:1px solid var(--line);border-radius:8px"></p>
-        <p style="margin-bottom:12px"><input name="telefono" placeholder="Telefono (opzionale)" style="width:100%;padding:12px;border:1px solid var(--line);border-radius:8px"></p>
+        <!-- Honeypot anti-spam: invisibile agli utenti reali, i bot lo compilano.
+             Netlify scarta automaticamente le richieste che lo riempiono. -->
+        <p style="position:absolute;left:-9999px" aria-hidden="true">
+          <label>Azienda <input name="azienda" tabindex="-1" autocomplete="off"></label>
+        </p>
+        <p style="margin-bottom:12px"><input required name="nome" autocomplete="name" placeholder="Nome e cognome" style="width:100%;padding:12px;border:1px solid var(--line);border-radius:8px"></p>
+        <p style="margin-bottom:12px"><input required type="email" name="email" autocomplete="email" placeholder="Email" style="width:100%;padding:12px;border:1px solid var(--line);border-radius:8px"></p>
+        <p style="margin-bottom:12px"><input name="telefono" type="tel" autocomplete="tel" placeholder="Telefono (opzionale)" style="width:100%;padding:12px;border:1px solid var(--line);border-radius:8px"></p>
         <p style="margin-bottom:12px"><textarea required name="messaggio" placeholder="Messaggio" rows="4" style="width:100%;padding:12px;border:1px solid var(--line);border-radius:8px"></textarea></p>
         <p style="margin-bottom:16px;font-size:.85rem;color:#4a544f">
           <label><input required type="checkbox" name="privacy"> Ho letto la <a href="privacy-policy.html" style="color:var(--teal);text-decoration:underline">Privacy Policy</a> e acconsento al trattamento dei miei dati, inclusi eventuali dati relativi alla salute che scelgo di indicare nel messaggio.</label>
