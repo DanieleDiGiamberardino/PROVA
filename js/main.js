@@ -47,7 +47,20 @@ const SITE_CONFIG = {
       calendlyUrl: 'https://calendly.com/studio-nome/sede-3',
       orari: { 0: null, 1: null, 2: ['09:00', '18:00'], 3: ['09:00', '18:00'], 4: ['09:00', '18:00'], 5: ['09:00', '18:00'], 6: ['09:00', '13:00'] }
     }
-  ]
+  ],
+  /* Numero/i di reperibilità per le urgenze fuori orario, legati ai
+     medici in turno e non a una sede specifica (un paziente in
+     urgenza chiama il medico reperibile, non un centralino chiuso).
+     "contatti" può avere 1 o più voci: con 2 medici come ora si
+     mostrano entrambi; aggiungerne un terzo in futuro basta ad
+     aggiornare ovunque il numero comparisce. */
+  emergenze: {
+    nota: 'Per urgenze odontoiatriche fuori dall\'orario di apertura, chiama direttamente il medico reperibile.',
+    contatti: [
+      { nome: 'Dott. [Nome Cognome]', telefono: '+39 000 000 0004', telefonoHref: '+390000000004' },
+      { nome: 'Dott.ssa [Nome Cognome]', telefono: '+39 000 000 0005', telefonoHref: '+390000000005' }
+    ]
+  }
 };
 
 (function () {
@@ -152,6 +165,10 @@ const SITE_CONFIG = {
     }
 
     document.querySelectorAll('a[href^="tel:"]').forEach(a => {
+      if (a.dataset.emergenza) {
+        const primo = c.emergenze && c.emergenze.contatti && c.emergenze.contatti[0];
+        if (primo) { a.href = 'tel:' + primo.telefonoHref; return; }
+      }
       const sede = c.sedi.find(s => s.slug === a.dataset.sede);
       a.href = 'tel:' + (sede ? sede.telefonoHref : principale.telefonoHref);
     });
@@ -314,6 +331,10 @@ const SITE_CONFIG = {
       </a>`).join('');
     document.querySelectorAll('.sedi-mini').forEach(el => { el.innerHTML = miniHtml; });
 
+    const telHtml = c.sedi.map(s => `
+      <p style="margin-bottom:8px"><strong>${s.nome}:</strong> <a href="tel:${s.telefonoHref}" data-sede="${s.slug}" style="color:var(--teal);text-decoration:underline">${s.telefono}</a></p>`).join('');
+    document.querySelectorAll('.sedi-telefoni').forEach(el => { el.innerHTML = telHtml; });
+
     const fullHtml = c.sedi.map(s => `
       <div class="card sede-card" id="${s.slug}">
         <div class="eyebrow">Sede</div>
@@ -462,6 +483,20 @@ const SITE_CONFIG = {
     select(c.sedi.find(s => s.slug === requestedSlug) || c.sedi[0]);
   }
 
+  /* Riempie ogni <div class="emergenze-list"></div> con i contatti di
+     reperibilità da SITE_CONFIG.emergenze: stesso pattern di renderSedi,
+     un solo punto da editare per aggiornare medico e numero ovunque
+     compare (Contatti, Home, eventualmente Sedi). */
+  function renderEmergenze() {
+    const e = SITE_CONFIG.emergenze;
+    if (!e || !e.contatti || !e.contatti.length) return;
+    const html = `
+      <span class="symptom-tag urgente" style="margin-bottom:10px;display:inline-block">Urgenze fuori orario</span>
+      <p style="color:var(--ink-soft);font-size:.88rem;margin-bottom:10px">${e.nota}</p>
+      ${e.contatti.map(m => `<p style="margin-bottom:4px"><strong>${m.nome}:</strong> <a href="tel:${m.telefonoHref}" style="color:var(--teal);text-decoration:underline">${m.telefono}</a></p>`).join('')}`;
+    document.querySelectorAll('.emergenze-list').forEach(el => { el.innerHTML = html; });
+  }
+
   function injectPartials() {
     const headerSlot = document.getElementById('site-header');
     if (headerSlot) headerSlot.outerHTML = `<header>${HEADER_HTML}</header>`;
@@ -553,6 +588,7 @@ const SITE_CONFIG = {
     injectHeadExtras();
     injectPartials();
     renderSedi();
+    renderEmergenze();
     injectSedeSchema();
     initStickyMobileCta();
     applyConfig(); // dopo aver creato tutto l'HTML/JSON-LD, così sostituisce anche quello
