@@ -471,7 +471,7 @@ const SITE_CONFIG = {
     const select = (servizio) => {
       pickerEl.querySelectorAll('.servizio-pick').forEach(b => b.classList.toggle('active', b.dataset.id === servizio.id));
       widgetEl.innerHTML = servizio.orariNota
-        ? `<p style="padding:0 28px 18px;color:#4a544f;font-size:.88rem"><strong>Orari disponibili:</strong> ${servizio.orariNota}</p>` : '';
+        ? `<p style="padding:0 28px 18px;color:var(--ink-soft);font-size:.88rem"><strong>Orari disponibili:</strong> ${servizio.orariNota}</p>` : '';
 
       if (!hasConsent()) {
         widgetEl.innerHTML += `
