@@ -9,23 +9,16 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="Studio Dentistico [Nome] — Odontoiatria a [Città]">
 <meta property="og:description" content="Cure generali, implantologia, ortodonzia, igiene e prevenzione. Prenota la tua prima visita.">
-<meta property="og:image" content="img/studio-hero.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="css/style.css">
-<!-- Preload dell'immagine hero: è l'elemento LCP della homepage, farla
-     partire prima aiuta il Largest Contentful Paint una volta che
-     img/studio-hero.jpg sarà una foto reale (ora non esiste ancora,
-     quindi il preload è innocuo ma resta pronto). -->
-<link rel="preload" as="image" href="img/studio-hero.jpg" fetchpriority="high">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "MedicalOrganization",
   "name": "Studio Dentistico [Nome]",
   "url": "https://www.studio-nome.it/index.html",
-  "image": "img/studio-hero.jpg",
   "medicalSpecialty": "Dentistry"
 }
 </script>
@@ -41,20 +34,18 @@
 <main id="main">
 <section class="hero">
   <div class="arc"></div>
-  <div class="wrap">
-    <div>
-      <div class="eyebrow">Studio dentistico a [Città]</div>
-      <h1>Il sorriso che meriti, con la cura di sempre.</h1>
-      <p>Odontoiatria generale, estetica e prevenzione in un ambiente sereno, con odontoiatri abilitati e iscritti all'Ordine.</p>
-      <a class="btn" href="contatti.html">Prenota la prima visita</a>
-      <div class="badge-row">
-        <span class="badge">✓ Odontoiatri iscritti all'Ordine</span>
-        <span class="badge">✓ Scanner intraorale digitale</span>
-        <span class="badge">✓ Pagamenti dilazionati</span>
-      </div>
+  <div class="wrap hero-single">
+    <div class="eyebrow">Studio dentistico a [Città]</div>
+    <h1>Il sorriso che meriti, con la cura di sempre.</h1>
+    <p>Odontoiatria generale, estetica e prevenzione in un ambiente sereno, con odontoiatri abilitati e iscritti all'Ordine.</p>
+    <div class="hero-cta-row">
+      <a class="btn btn-lg" href="contatti.html">Prenota una visita</a>
+      <a class="btn-ghost btn btn-lg" href="tel:+39000000000">📞 Contattaci ora</a>
     </div>
-    <div class="hero-img">
-      <img src="img/studio-hero.jpg" alt="Sala operativa dello Studio [Nome]" loading="eager">
+    <div class="badge-row">
+      <span class="badge">✓ Odontoiatri iscritti all'Ordine</span>
+      <span class="badge">✓ Scanner intraorale digitale</span>
+      <span class="badge">✓ Pagamenti dilazionati</span>
     </div>
   </div>
 </section>

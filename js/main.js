@@ -60,6 +60,27 @@ const SITE_CONFIG = {
       { nome: 'Dott. [Nome Cognome]', telefono: '+39 000 000 0004', telefonoHref: '+390000000004' },
       { nome: 'Dott.ssa [Nome Cognome]', telefono: '+39 000 000 0005', telefonoHref: '+390000000005' }
     ]
+  },
+  /* Prenotazione online (contatti.html): solo i servizi elencati qui
+     sono prenotabili, ognuno con il proprio calendario Calendly.
+     "orariNota" è facoltativo — impostarlo (es. "martedì e giovedì
+     14:00–18:00") per limitare visivamente la fascia oraria proposta
+     per quel servizio; lasciarlo null per nessuna restrizione mostrata. */
+  prenotazione: {
+    servizi: [
+      {
+        id: 'pulizia',
+        nome: 'Pulizia denti',
+        calendlyUrl: 'https://calendly.com/studio-nome/pulizia',
+        orariNota: null
+      },
+      {
+        id: 'visita',
+        nome: 'Visita di controllo',
+        calendlyUrl: 'https://calendly.com/studio-nome/visita',
+        orariNota: null
+      }
+    ]
   }
 };
 
@@ -337,17 +358,23 @@ const SITE_CONFIG = {
 
     const fullHtml = c.sedi.map(s => `
       <div class="card sede-card" id="${s.slug}">
-        <div class="eyebrow">Sede</div>
-        <h2 style="margin:4px 0 14px">${s.nome}</h2>
-        <p><strong>Indirizzo:</strong> ${s.indirizzo}</p>
-        <p><strong>Telefono:</strong> <a href="tel:${s.telefonoHref}" data-sede="${s.slug}">${s.telefono}</a></p>
-        <p><strong>Orari:</strong> ${orariLabel(s.orari)}</p>
-        <p style="margin-top:10px"><span class="open-status-slot" data-sede="${s.slug}"></span></p>
-        <div class="img-placeholder" style="margin:18px 0;min-height:200px">Mappa Google — ${s.nome} (iframe da integrare)</div>
-        <div style="display:flex;gap:12px;flex-wrap:wrap">
-          <a class="btn" href="tel:${s.telefonoHref}" data-sede="${s.slug}">📞 Chiama questa sede</a>
-          <a class="btn-ghost btn" href="contatti.html?sede=${s.slug}#bookingWidget">Prenota in questa sede</a>
+        <div class="sede-card-info">
+          <div class="eyebrow">Sede</div>
+          <h2 style="margin:4px 0 14px">${s.nome}</h2>
+          <p><strong>Indirizzo:</strong> ${s.indirizzo}</p>
+          <p><strong>Telefono:</strong> <a href="tel:${s.telefonoHref}" data-sede="${s.slug}">${s.telefono}</a></p>
+          <p><strong>Orari:</strong> ${orariLabel(s.orari)}</p>
+          <p style="margin-top:10px"><span class="open-status-slot" data-sede="${s.slug}"></span></p>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:auto;padding-top:18px">
+            <a class="btn" href="tel:${s.telefonoHref}" data-sede="${s.slug}">📞 Chiama questa sede</a>
+            <a class="btn-ghost btn" href="contatti.html#prenota">Prenota online</a>
+          </div>
         </div>
+        <!-- Mappa incorporata via URL (nessuna API key necessaria): si aggiorna
+             da sola non appena indirizzo/città in SITE_CONFIG saranno reali. -->
+        <iframe class="sede-map" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+          title="Mappa — ${s.nome}"
+          src="https://www.google.com/maps?q=${encodeURIComponent(s.indirizzo + ', ' + s.citta)}&output=embed"></iframe>
       </div>`).join('');
     document.querySelectorAll('.sedi-full').forEach(el => { el.innerHTML = fullHtml; });
 
@@ -428,36 +455,34 @@ const SITE_CONFIG = {
     s.addEventListener('load', cb, { once: true });
   }
 
-  /* Selettore di sede per la prenotazione (contatti.html): una card
-     informativa (nome, indirizzo, orario) per ogni sede in
-     SITE_CONFIG.sedi — non semplici etichette, cosi l'utente sceglie
-     sapendo già dov'è e se è aperta. Cliccandola carica il calendario
-     Calendly di QUELLA sede (calendlyUrl): la prenotazione resta
-     sempre legata allo studio giusto, mai a un calendario condiviso.
-     Se si arriva con ?sede=slug (es. dal pulsante "Prenota" di una
-     card in sedi.html) parte già su quella sede. */
-  function initBookingWidget() {
-    const pickerEl = document.querySelector('.sede-picker');
+  /* Selettore per tipo di prestazione prenotabile (contatti.html): al
+     momento solo "Pulizia denti" e "Visita di controllo" (vedi
+     SITE_CONFIG.prenotazione.servizi), ognuno con il proprio calendario
+     Calendly. "orariNota" è opzionale: se valorizzato mostra una fascia
+     oraria dedicata sopra al calendario (es. "Disponibile solo il
+     martedì e giovedì 14:00–18:00"); se null non mostra restrizioni.
+     Da confermare/aggiornare quando lo studio deciderà gli orari. */
+  function initServizioPicker() {
+    const pickerEl = document.querySelector('.servizio-picker');
     const widgetEl = document.getElementById('bookingWidget');
-    const labelEl = document.getElementById('selectedSedeLabel');
     if (!pickerEl || !widgetEl) return;
-    const c = SITE_CONFIG;
+    const servizi = SITE_CONFIG.prenotazione.servizi;
 
-    const select = (sede) => {
-      pickerEl.querySelectorAll('.sede-pick').forEach(b => b.classList.toggle('active', b.dataset.slug === sede.slug));
-      if (labelEl) labelEl.textContent = sede.nome;
-      widgetEl.innerHTML = '';
+    const select = (servizio) => {
+      pickerEl.querySelectorAll('.servizio-pick').forEach(b => b.classList.toggle('active', b.dataset.id === servizio.id));
+      widgetEl.innerHTML = servizio.orariNota
+        ? `<p style="padding:0 28px 18px;color:#4a544f;font-size:.88rem"><strong>Orari disponibili:</strong> ${servizio.orariNota}</p>` : '';
 
       if (!hasConsent()) {
-        widgetEl.innerHTML = `
-          <div class="card" style="margin:0;border:none;border-radius:0;background:var(--mint)">
+        widgetEl.innerHTML += `
+          <div class="card" style="margin:0 28px 28px;background:var(--mint)">
             <p style="margin:0 0 12px">Il calendario di prenotazione è fornito da <strong>Calendly</strong>, un servizio esterno: per caricarlo serve il tuo consenso ai cookie di terze parti.</p>
             <button class="btn" id="consentFromWidget" type="button">Accetta e mostra il calendario</button>
           </div>`;
         document.getElementById('consentFromWidget').addEventListener('click', () => {
           localStorage.setItem(CONSENT_KEY, '1');
           loadGoogleFonts();
-          select(sede);
+          select(servizio);
         });
         return;
       }
@@ -465,22 +490,16 @@ const SITE_CONFIG = {
       const holder = document.createElement('div');
       holder.style.cssText = 'min-width:280px;height:700px';
       widgetEl.appendChild(holder);
-      const url = `${sede.calendlyUrl}?hide_gdpr_banner=1&primary_color=0a5c52`;
+      const url = `${servizio.calendlyUrl}?hide_gdpr_banner=1&primary_color=0a5c52`;
       whenCalendlyReady(() => window.Calendly.initInlineWidget({ url, parentElement: holder }));
     };
 
-    pickerEl.innerHTML = c.sedi.map(s => `
-      <button type="button" class="sede-pick" data-slug="${s.slug}">
-        <h4>${s.nome}</h4>
-        <p>${s.indirizzo}</p>
-        <span class="open-status-slot" data-sede="${s.slug}"></span>
-      </button>`).join('');
-    pickerEl.querySelectorAll('.sede-pick').forEach(btn => {
-      btn.addEventListener('click', () => select(c.sedi.find(s => s.slug === btn.dataset.slug)));
+    pickerEl.innerHTML = servizi.map(s => `<button type="button" class="servizio-pick" data-id="${s.id}">${s.nome}</button>`).join('');
+    pickerEl.querySelectorAll('.servizio-pick').forEach(btn => {
+      btn.addEventListener('click', () => select(servizi.find(s => s.id === btn.dataset.id)));
     });
 
-    const requestedSlug = new URLSearchParams(location.search).get('sede');
-    select(c.sedi.find(s => s.slug === requestedSlug) || c.sedi[0]);
+    select(servizi[0]);
   }
 
   /* Riempie ogni <div class="emergenze-list"></div> con i contatti di
@@ -553,7 +572,7 @@ const SITE_CONFIG = {
       bar.remove();
       if (value === '1') {
         loadGoogleFonts();
-        initBookingWidget(); // ricarica il calendario, ora che c'è il consenso
+        initServizioPicker(); // ricarica il calendario, ora che c'è il consenso
       }
     };
     document.getElementById('cookieAccept').addEventListener('click', () => close('1'));
@@ -597,7 +616,7 @@ const SITE_CONFIG = {
     initCookieBanner();
     initManageCookies();
     initImageFallback();
-    initBookingWidget();
+    initServizioPicker();
     initOpenStatus();
     initSectionNav();
   });
