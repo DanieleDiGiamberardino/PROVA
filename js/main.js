@@ -253,7 +253,7 @@ const SITE_CONFIG = {
       icon.rel = 'icon';
       icon.href = 'data:image/svg+xml,' + encodeURIComponent(
         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">' +
-        '<rect width="100" height="100" rx="20" fill="%230B5E59"/>' +
+        '<rect width="100" height="100" rx="20" fill="%232F6F62"/>' +
         '<text x="50" y="66" font-size="54" text-anchor="middle" fill="%23fff" font-family="Georgia,serif">S</text>' +
         '</svg>'
       );
