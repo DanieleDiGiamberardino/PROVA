@@ -103,7 +103,10 @@ const SITE_CONFIG = {
 
   const HEADER_HTML = `
     <div class="nav wrap">
-      <a class="logo" href="index.html">Studio [Nome]</a>
+      <a class="logo" href="index.html">
+        <span class="logo-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 9.5c0 4.4 3.1 8 7 8s7-3.6 7-8" stroke-linecap="round"/><circle cx="8.3" cy="7.6" r="1" fill="#fff" stroke="none"/><circle cx="15.7" cy="7.6" r="1" fill="#fff" stroke="none"/></svg></span>
+        Studio [Nome]
+      </a>
       <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="mainMenu" aria-label="Apri il menu">
         <span></span><span></span><span></span>
       </button>
@@ -122,6 +125,12 @@ const SITE_CONFIG = {
         <p>Direttore Sanitario: Dott. [Nome Cognome], Albo Odontoiatri n. [—]</p>
         <div class="trust-row">
           <span>★★★★★ [—]/5 su Google ([—] recensioni) — <em>dato reale da inserire prima della pubblicazione</em></span>
+        </div>
+        <!-- Sostituire i link "#" con i profili social reali dello studio -->
+        <div class="social-row">
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".6" fill="#D7E8DF" stroke="none"/></svg></a>
+          <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M14 21v-7h2.5l.5-3H14V9c0-1 .3-1.7 1.7-1.7H17V4.6c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.4H8.5v3H11v7h3z" stroke-linejoin="round"/></svg></a>
+          <a href="#" aria-label="Google"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 1 2.3 5.6M4 12l3 2.4M4 12l3-2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         </div>
       </div>
       <div>
@@ -253,7 +262,7 @@ const SITE_CONFIG = {
       icon.rel = 'icon';
       icon.href = 'data:image/svg+xml,' + encodeURIComponent(
         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">' +
-        '<rect width="100" height="100" rx="20" fill="%232F6F62"/>' +
+        '<rect width="100" height="100" rx="22" fill="%230E5C4C"/>' +
         '<text x="50" y="66" font-size="54" text-anchor="middle" fill="%23fff" font-family="Georgia,serif">S</text>' +
         '</svg>'
       );
@@ -439,6 +448,28 @@ const SITE_CONFIG = {
     sections.forEach(s => observer.observe(s));
   }
 
+  /* Applica una comparsa "fade + slide up" a ogni elemento con classe
+     .reveal quando entra nel viewport (una volta sola). Se l'utente ha
+     impostato "riduci animazioni" nel sistema operativo, il CSS mostra
+     già tutto senza transizione: qui basta non fare nulla in quel caso. */
+  function initReveal() {
+    const items = document.querySelectorAll('.reveal');
+    if (!items.length) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      items.forEach(el => el.classList.add('in-view'));
+      return;
+    }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    items.forEach(el => observer.observe(el));
+  }
+
   /* Carica lo script esterno di Calendly una sola volta (non è più
      incluso staticamente nell'HTML: viene richiesto solo qui, quando
      serve davvero e solo se l'utente ha dato il consenso) e attende
@@ -619,5 +650,6 @@ const SITE_CONFIG = {
     initServizioPicker();
     initOpenStatus();
     initSectionNav();
+    initReveal();
   });
 })();

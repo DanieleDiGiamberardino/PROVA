@@ -27,7 +27,7 @@
 </section>
 
 <section style="padding-top:0" id="prenota">
-  <div class="wrap">
+  <div class="wrap reveal">
     <div class="card" style="padding:0;overflow:hidden">
       <div style="padding:28px 28px 0">
         <h3 style="margin-top:0">Prenota online in 1 minuto</h3>
@@ -48,20 +48,20 @@
   <div class="wrap" style="text-align:center;margin-bottom:8px">
     <p style="color:var(--ink-soft);font-size:.9rem">Preferisci scriverci prima di prenotare?</p>
   </div>
-  <div class="wrap grid-2">
+  <div class="wrap grid-2 reveal">
     <div class="card">
       <h3 style="margin-top:0">Scrivici</h3>
       <!-- Form gestito da Netlify Forms: sostituire data-netlify="true" e name con endpoint reale (o Formspree) -->
       <form name="contatto" method="POST" data-netlify="true">
         <input type="hidden" name="form-name" value="contatto">
-        <p style="margin-bottom:12px"><input required name="nome" placeholder="Nome e cognome" style="width:100%;padding:12px;border:1px solid var(--line);border-radius:8px"></p>
-        <p style="margin-bottom:12px"><input required type="email" name="email" placeholder="Email" style="width:100%;padding:12px;border:1px solid var(--line);border-radius:8px"></p>
-        <p style="margin-bottom:12px"><input name="telefono" placeholder="Telefono (opzionale)" style="width:100%;padding:12px;border:1px solid var(--line);border-radius:8px"></p>
-        <p style="margin-bottom:12px"><textarea required name="messaggio" placeholder="Messaggio" rows="4" style="width:100%;padding:12px;border:1px solid var(--line);border-radius:8px"></textarea></p>
-        <p style="margin-bottom:16px;font-size:.85rem;color:var(--ink-soft)">
-          <label><input required type="checkbox" name="privacy"> Ho letto e accetto la <a href="privacy-policy.html" style="color:var(--teal);text-decoration:underline">Privacy Policy</a></label>
+        <p class="form-row"><input required name="nome" placeholder="Nome e cognome" class="form-field"></p>
+        <p class="form-row"><input required type="email" name="email" placeholder="Email" class="form-field"></p>
+        <p class="form-row"><input name="telefono" placeholder="Telefono (opzionale)" class="form-field"></p>
+        <p class="form-row"><textarea required name="messaggio" placeholder="Messaggio" rows="4" class="form-field"></textarea></p>
+        <p class="form-row form-check">
+          <label style="display:flex;gap:8px;align-items:flex-start"><input required type="checkbox" name="privacy" style="margin-top:3px"> Ho letto e accetto la <a href="privacy-policy.html" style="color:var(--teal);text-decoration:underline">Privacy Policy</a></label>
         </p>
-        <button class="btn" type="submit">Invia richiesta</button>
+        <button class="btn btn-accent" type="submit">Invia richiesta</button>
       </form>
     </div>
     <div class="card">
